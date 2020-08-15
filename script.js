@@ -44,7 +44,34 @@ $("#find-city").on("click", function (event) {
             $("#city-windspeed").text("Wind Speed: " + weatherResponseWithLatAndLong.daily[0].wind_speed + " MPH")
             $("#city-uvindex").text("UV Index: " + weatherResponseWithLatAndLong.daily[0].uvi)
             
-            
+            //for loop to cycle through dates starting with tomorrow and include next 4 days
+            for(var i = 1; i < 6; i++) {
+                var fiveDayunixTime = weatherResponseWithLatAndLong.daily[i].dt;
+                var fiveDaytimeInMilliSeconds = fiveDayunixTime * 1000;
+                var fiveDaydate = new Date(fiveDaytimeInMilliSeconds);
+                
+                //converting date display to DD/MM/YYYY for forecast dates
+                var fiveDayday = (fiveDaydate.getDate() < 10 ? '0' : '') + fiveDaydate.getDate();
+                var fiveDaymonth = (fiveDaydate.getMonth() < 9 ? '0' : '') + (fiveDaydate.getMonth() + 1);
+                var fiveDayyear = fiveDaydate.getFullYear();
+                var futureTemp = weatherResponseWithLatAndLong.daily[i].temp.day
+                
+                //converting Kelvin to Fahrenheit for 5-day forecast temps
+                futureTemp = (((futureTemp -273) * 9/5) + 32).toFixed(2)
+                
+                //creating divs and ptags for each 5-day forecast days
+                var fiveDayDiv = $("<div>") 
+                var fiveDayFutureDate = $("<p>")
+                var fiveDayTemp = $("<p>")
+                var fiveDayHumidity = $("<p>")
+                
+                //adding text content and appending to 5-day forecast divs and ptags
+                fiveDayTemp.text(futureTemp)
+                fiveDayHumidity.text(weatherResponseWithLatAndLong.daily[i].humidity)
+                fiveDayFutureDate.text(fiveDaymonth + "/" + fiveDayday + "/" + fiveDayyear)
+                fiveDayDiv.append(fiveDayTemp, fiveDayHumidity, fiveDayFutureDate)
+                $("#fivedayforecast").append(fiveDayDiv)
+            }
         })
     })
 })
