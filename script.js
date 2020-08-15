@@ -69,7 +69,7 @@ $("#find-city").on("click", function (event) {
                 fiveDayTemp.text(futureTemp)
                 fiveDayHumidity.text(weatherResponseWithLatAndLong.daily[i].humidity)
                 fiveDayFutureDate.text(fiveDaymonth + "/" + fiveDayday + "/" + fiveDayyear)
-                fiveDayDiv.append(fiveDayTemp, fiveDayHumidity, fiveDayFutureDate)
+                fiveDayDiv.append(fiveDayFutureDate, fiveDayTemp, fiveDayHumidity)
                 $("#fivedayforecast").append(fiveDayDiv)
             }
         })
